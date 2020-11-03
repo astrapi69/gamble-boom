@@ -1,5 +1,5 @@
 #
-name: spring-boot-template
+name: gamble-boom
 environment: dev
 
 logging:
@@ -10,15 +10,15 @@ logging:
       SQL: DEBUG
       type.descriptor.sql: trace
   file:
-    name: ${HOME}/logs/spring-boot-template.log
+    name: ${HOME}/logs/gamble-boom.log
 
 server:
   port: 5000
 
 app:
-  name: spring-boot-template
+  name: gamble-boom
   dir: ${user.home}/.${app.name}
-  db-name: emailsystem
+  db-name: gambleboom
   db-host: localhost
   db-port: 5432
   db-username: postgres

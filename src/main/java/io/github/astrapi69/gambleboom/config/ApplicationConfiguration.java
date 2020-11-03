@@ -1,4 +1,4 @@
-package io.github.astrapi69.emailsystem.config;
+package io.github.astrapi69.gambleboom.config;
 
 import java.util.List;
 
@@ -30,16 +30,13 @@ import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
 
 @Configuration
-@ComponentScan(basePackages = {
-    "io.github.astrapi69.emailsystem",
-    "io.github.astrapi69.emailsystem.service",
-    "io.github.astrapi69.emailsystem.jpa.entities"})
+@ComponentScan(basePackages = { "io.github.astrapi69.gambleboom",
+	"io.github.astrapi69.gambleboom.service", "io.github.astrapi69.gambleboom.jpa.entities" })
 @EntityScan(basePackages = {
-    "io.github.astrapi69.emailsystem.jpa.entities",
-    "io.github.astrapi69.emailsystem.jpa.entities.user",
-    "io.github.astrapi69.emailsystem.jpa.entities.payment"})
-@EnableJpaRepositories(basePackages = {
-    "io.github.astrapi69.emailsystem.jpa.repositories"})
+    "io.github.astrapi69.gambleboom.jpa.entities",
+    "io.github.astrapi69.gambleboom.jpa.entities.user",
+    "io.github.astrapi69.gambleboom.jpa.entities.payment"})
+@EnableJpaRepositories(basePackages = { "io.github.astrapi69.gambleboom.jpa.repositories" })
 @EnableTransactionManagement
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)

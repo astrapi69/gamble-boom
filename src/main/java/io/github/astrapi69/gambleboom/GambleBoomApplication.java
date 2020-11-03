@@ -1,8 +1,8 @@
-package io.github.astrapi69.emailsystem;
+package io.github.astrapi69.gambleboom;
 
-import io.github.astrapi69.emailsystem.config.ApplicationConfiguration;
-import io.github.astrapi69.emailsystem.config.ApplicationProperties;
-import io.github.astrapi69.emailsystem.config.SwaggerConfiguration;
+import io.github.astrapi69.gambleboom.config.ApplicationConfiguration;
+import io.github.astrapi69.gambleboom.config.ApplicationProperties;
+import io.github.astrapi69.gambleboom.config.SwaggerConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -13,10 +13,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Import({ ApplicationConfiguration.class, SwaggerConfiguration.class })
 @EnableConfigurationProperties({ ApplicationProperties.class })
 @SpringBootApplication
-public class EmailSystemApplication {
+public class GambleBoomApplication
+{
 
 	public static void main(String[] args) {
-		SpringApplication.run(EmailSystemApplication.class, args);
+		SpringApplication.run(GambleBoomApplication.class, args);
 	}
 
 }

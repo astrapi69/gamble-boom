@@ -1,4 +1,4 @@
-package io.github.astrapi69.emailsystem.config;
+package io.github.astrapi69.gambleboom.config;
 
 import java.util.ArrayList;
 import java.util.List;

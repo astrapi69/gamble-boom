@@ -1,4 +1,4 @@
-package io.github.astrapi69.emailsystem.config;
+package io.github.astrapi69.gambleboom.config;
 
 import static springfox.documentation.builders.PathSelectors.regex;
 

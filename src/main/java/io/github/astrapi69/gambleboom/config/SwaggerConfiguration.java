@@ -1,4 +1,4 @@
-package io.github.astrapi69.emailsystem.config;
+package io.github.astrapi69.gambleboom.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,7 +25,7 @@ public class SwaggerConfiguration extends AbstractSwaggerConfiguration
 
 	@Override public String getBasePackage()
 	{
-		return "io.github.astrapi69.emailsystem";
+		return "io.github.astrapi69.gambleboom";
 	}
 
 	@Override public String getApiInfoTitle()

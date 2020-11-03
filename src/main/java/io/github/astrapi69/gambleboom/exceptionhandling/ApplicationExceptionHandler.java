@@ -1,4 +1,4 @@
-package io.github.astrapi69.emailsystem.exceptionhandling;
+package io.github.astrapi69.gambleboom.exceptionhandling;
 
 import org.springframework.context.MessageSource;
 import org.springframework.web.bind.annotation.ControllerAdvice;
