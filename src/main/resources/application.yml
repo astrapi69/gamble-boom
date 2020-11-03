@@ -1,0 +1,71 @@
+#
+name: spring-boot-template
+environment: dev
+
+logging:
+  level:
+    .: debug
+    org.springframework: DEBUG
+    org.hibernate:
+      SQL: DEBUG
+      type.descriptor.sql: trace
+  file:
+    name: ${HOME}/logs/spring-boot-template.log
+
+server:
+  port: 5000
+
+app:
+  name: spring-boot-template
+  dir: ${user.home}/.${app.name}
+  db-name: emailsystem
+  db-host: localhost
+  db-port: 5432
+  db-username: postgres
+  db-password: postgres
+  db-url-prefix: jdbc:postgresql://
+  jwt:
+    secret: cp*D33tZY(juumBUcBDVv8tJ!8w/T@JGpS)@)Sr6EYfjFBTRUJfu@&6jz-7*cFk5
+  signin-path-patterns:
+    - /v1/auth/signin
+  public-path-patterns:
+    - /v1/jwt/ispublic
+    - /v1/jwt/register
+    - /v1/public
+  ignore-path-patterns:
+    - /resources/**
+    - /v1/jwt/register
+    - /v2/api-docs # swagger ui
+    - /configuration/ui # swagger ui
+    - /swagger-resources/** # swagger ui
+    - /configuration/security # swagger ui
+    - /swagger-ui.html # swagger ui
+    - /webjars/** # swagger ui
+
+spring:
+  profiles: dev
+  main:
+    allow-bean-definition-overriding: false
+  datasource:
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    url: ${app.db-url-prefix}${app.db-host}:${app.db-port}/${app.db-name}
+    initialization-mode: never
+  jpa:
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+    hibernate:
+      ddl-auto: none
+      show_sql: true
+      use_sql_comments: true
+      format_sql: true
+      generate_statistics: false
+
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
