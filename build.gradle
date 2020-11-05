@@ -147,6 +147,8 @@ dependencies {
 	implementation("de.alpharogroup:auth-api:$authApiVersion")
 	implementation("de.alpharogroup:auth:$authVersion")
 	implementation("de.alpharogroup:mystic-crypt:$mysticCryptVersion")
+	implementation("de.alpharogroup:crypt-data:$cryptDataVersion")
+	implementation("de.alpharogroup:sign-and-verify:$signAndVerifyVersion")
 	implementation("de.alpharogroup:pg-enum-usertype:$pgEnumUsertypeVersion")
 	implementation("com.vladmihalcea:hibernate-types-52:$vladmihalceaHibernateTypes52Version")
 	implementation("de.alpharogroup:servlet-kt-extensions:$servletKtExtensionsVersion")

@@ -17,7 +17,9 @@ public class GambleBoomApplication
 {
 
 	public static void main(String[] args) {
-		SpringApplication.run(GambleBoomApplication.class, args);
+
+		SpringApplication application = new SpringApplication(GambleBoomApplication.class);
+		application.run(args);
 	}
 
 }

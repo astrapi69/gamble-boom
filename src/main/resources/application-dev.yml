@@ -1,0 +1,13 @@
+#
+spring:
+  application:
+    admin:
+      enabled: false
+      jmx-name: org.springframework.boot:type=Admin,name=GambleBoomApplication
+
+app:
+  db-name: gambleboom
+  db-host: localhost
+  db-port: 5432
+  db-username: postgres
+  db-password: postgres

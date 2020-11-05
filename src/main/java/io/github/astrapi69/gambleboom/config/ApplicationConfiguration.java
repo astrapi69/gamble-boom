@@ -1,7 +1,21 @@
 package io.github.astrapi69.gambleboom.config;
 
+import java.io.File;
+import java.security.KeyStore;
+import java.security.PrivateKey;
+import java.security.cert.Certificate;
 import java.util.List;
 
+import de.alpharogroup.crypto.algorithm.KeystoreType;
+import de.alpharogroup.crypto.compound.CompoundAlgorithm;
+import de.alpharogroup.crypto.factories.KeyStoreFactory;
+import de.alpharogroup.crypto.ssl.KeyStoreExtensions;
+import de.alpharogroup.lang.ClassExtensions;
+import de.alpharogroup.sign.SignatureBean;
+import de.alpharogroup.sign.VerifyBean;
+import de.alpharogroup.throwable.RuntimeExceptionDecorator;
+import de.alpharogroup.throwable.ThrowableExtensions;
+import org.flywaydb.core.internal.resource.classpath.ClassPathResource;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -15,6 +29,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.http.converter.xml.MarshallingHttpMessageConverter;
 import org.springframework.oxm.xstream.XStreamMarshaller;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -111,4 +126,53 @@ public class ApplicationConfiguration implements WebMvcConfigurer {
     {
         return initialize(new ObjectMapper());
     }
+
+    @Bean
+    public KeyStore keyStore() {
+        String keystoreFilename = applicationProperties.getKeystoreFilename();
+        File keystoreFile= RuntimeExceptionDecorator.decorate(
+            () ->
+                ClassExtensions.getResourceAsFile(keystoreFilename));
+        return RuntimeExceptionDecorator.decorate(
+            () ->
+            KeyStoreFactory
+                .newKeyStore(
+                    KeystoreType.JKS.name(),
+                    applicationProperties.getKeystorePassword(),
+                    keystoreFile));
+    }
+
+    @Bean
+    public SignatureBean signatureBean() {
+        String pkAlias = applicationProperties.getPkAlias();
+        char[] chars = applicationProperties.getKeystorePassword().toCharArray();
+        KeyStore keyStore = keyStore();
+        PrivateKey privateKey =
+            RuntimeExceptionDecorator.decorate(
+                () ->
+                    (PrivateKey) keyStore.getKey(pkAlias,
+                        chars)
+                    );
+        String signatureAlgorithm = applicationProperties.getSignatureAlgorithm();
+        return SignatureBean.builder()
+            .privateKey(privateKey)
+            .signatureAlgorithm(signatureAlgorithm)
+            .build();
+    }
+
+    @Bean
+    public VerifyBean verifyBean() {
+        String pkAlias = applicationProperties.getPkAlias();
+        char[] chars = applicationProperties.getKeystorePassword().toCharArray();
+        String signatureAlgorithm = applicationProperties.getSignatureAlgorithm();
+        KeyStore keyStore = keyStore();
+        Certificate certificate =
+            RuntimeExceptionDecorator.decorate(
+                () -> keyStore.getCertificate(pkAlias));
+        return VerifyBean.builder()
+            .certificate(certificate)
+            .signatureAlgorithm(signatureAlgorithm)
+            .build();
+    }
+
 }

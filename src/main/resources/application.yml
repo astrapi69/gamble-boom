@@ -19,6 +19,10 @@ app:
   name: gamble-boom
   dir: ${user.home}/.${app.name}
   db-name: gambleboom
+  keystore-filename: keystore.jks
+  keystore-password: keystore-pw
+  pk-alias: app-priv-key
+  signature-algorithm: SHA256withRSA
   db-host: localhost
   db-port: 5432
   db-username: postgres

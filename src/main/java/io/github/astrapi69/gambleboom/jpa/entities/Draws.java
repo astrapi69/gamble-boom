@@ -11,7 +11,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Set;
 
-@Entity @Table
+@Entity @Table(name = "drawn_numbers")
 @Getter
 @Setter
 @ToString(callSuper = true)

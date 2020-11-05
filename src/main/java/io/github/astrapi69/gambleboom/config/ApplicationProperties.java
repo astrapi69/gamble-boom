@@ -25,6 +25,10 @@ public class ApplicationProperties
 	String dbPassword;
 	String dir;
 	String name;
+	String keystoreFilename;
+	String keystorePassword;
+	String pkAlias;
+	String signatureAlgorithm;
 	String stripePublicKey;
 	String stripeSecretKey;
 	String jwtSecret;
