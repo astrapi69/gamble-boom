@@ -1,19 +1,4 @@
 #
-name: gamble-boom
-environment: dev
-
-logging:
-  level:
-    .: debug
-    org.springframework: DEBUG
-    org.hibernate:
-      SQL: DEBUG
-      type.descriptor.sql: trace
-  file:
-    name: ${HOME}/logs/gamble-boom.log
-
-server:
-  port: 5000
 
 app:
   name: gamble-boom
@@ -53,12 +38,12 @@ spring:
   datasource:
     username: postgres
     password: postgres
-    driver-class-name: org.postgresql.Driver
+    driver-class-name: org.apache.derby.jdbc.EmbeddedDriver
     type: com.zaxxer.hikari.HikariDataSource
-    url: ${app.db-url-prefix}${app.db-host}:${app.db-port}/${app.db-name}
+    url: jdbc:derby:memory:gambleboom;create=true
     initialization-mode: never
     hikari:
-      driver-class-name: org.postgresql.Driver
+      driver-class-name: org.apache.derby.jdbc.EmbeddedDriver
   jpa:
     properties:
       hibernate:
@@ -72,6 +57,3 @@ spring:
       format_sql: true
       generate_statistics: false
 
-  flyway:
-    enabled: true
-    baseline-on-migrate: true

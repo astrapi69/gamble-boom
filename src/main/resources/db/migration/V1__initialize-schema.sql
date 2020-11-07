@@ -1,6 +1,6 @@
 create sequence hibernate_sequence;
 
-create table drawn_numbers
+create table draws
 (
     id         uuid not null,
     drawn_date timestamp,
@@ -8,10 +8,10 @@ create table drawn_numbers
         primary key (id)
 );
 
-create table drawn_numbers_lottery_numbers
+create table draws_lottery_numbers
 (
-    drawn_numbers_id uuid not null,
+    draw_id uuid not null,
     lottery_number   integer,
     constraint fk_drawn_numbers_id
-        foreign key (drawn_numbers_id) references drawn_numbers
+        foreign key (draw_id) references draws
 );

@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 
-@Repository public interface DrawnNumbersRepository extends JpaRepository<Draws, UUID>
+@Repository public interface DrawsRepository extends JpaRepository<Draws, UUID>
 {
 }
