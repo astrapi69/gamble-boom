@@ -171,6 +171,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 	testImplementation("org.testcontainers:testcontainers:$testcontainersVersion")
+	testImplementation("de.alpharogroup:silly-jdbc:$sillyJdbcVersion")
 	testImplementation("org.testcontainers:postgresql:$testcontainersVersion")
 	testImplementation("de.alpharogroup:jobj-contract-verifier:$jobjContractVerifierVersion")
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {

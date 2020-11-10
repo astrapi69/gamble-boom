@@ -1,6 +1,9 @@
 package io.github.astrapi69.gambleboom.jpa.repositories;
 
 import de.alpharogroup.collections.set.SetFactory;
+import de.alpharogroup.jdbc.ConnectionsExtensions;
+import de.alpharogroup.jdbc.JdbcUrlBean;
+import de.alpharogroup.jdbc.PostgreSQLConnectionsExtensions;
 import io.github.astrapi69.gambleboom.AbstractIntegrationTest;
 import io.github.astrapi69.gambleboom.config.ApplicationConfiguration;
 import io.github.astrapi69.gambleboom.config.ApplicationProperties;
@@ -35,7 +38,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.persistence.Query;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -74,6 +81,22 @@ public class DrawsRepositoryTest extends AbstractIntegrationTest
 		saved = drawsRepository.saveAndFlush(saved);
 		newSignature = saved.getSignature();
 		assertThat(signature).isNotEqualTo(newSignature);
+	}
+
+
+	@Test
+	public void testVerify()
+	{
+		// new scenario...
+		// draw the first object
+		Draws saved = drawsRepository.saveAndFlush(Draws.builder().drawnDate(LocalDateTime.now())
+			.lotteryNumbers(SetFactory.newHashSet(2, 5, 11, 23, 25, 45)).build());
+		String signature = saved.getSignature();
+		assertThat(saved).isNotNull();
+		assertThat(signature).isNotNull();
+
+		Draws one = drawsRepository.getOne(saved.getId());
+		assertThat(one).isNotNull();
 	}
 
 }

@@ -27,7 +27,7 @@ public class AbstractIntegrationTest {
     static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
 
         static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>()
-                .withDatabaseName("lottery")
+                .withDatabaseName("gambleboom")
                 .withUsername("postgres")
                 .withPassword("postgres")
                 .withStartupTimeout(Duration.ofSeconds(600));
