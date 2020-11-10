@@ -55,17 +55,25 @@ public class DrawsRepositoryTest extends AbstractIntegrationTest
 
 	@Test
 	public void testSave() {
-		Draws saved = drawsRepository.save(Draws.builder().drawnDate(LocalDateTime.now())
+		// new scenario...
+		// draw the first object
+		Draws saved = drawsRepository.saveAndFlush(Draws.builder().drawnDate(LocalDateTime.now())
 			.lotteryNumbers(SetFactory.newHashSet(2, 5, 11, 23, 25, 45)).build());
 		String signature = saved.getSignature();
 		assertThat(saved).isNotNull();
-		Draws saved2 = drawsRepository.save(Draws.builder().drawnDate(LocalDateTime.now())
+		assertThat(signature).isNotNull();
+		// new scenario...
+		// draw the second object
+		Draws saved2 = drawsRepository.saveAndFlush(Draws.builder().drawnDate(LocalDateTime.now())
 			.lotteryNumbers(SetFactory.newHashSet(1, 6, 17, 23, 26, 47)).build());
 		String newSignature = saved2.getSignature();
 		assertThat(saved2).isNotNull();
+		assertThat(signature).isNotEqualTo(newSignature);
+		// change draw date of first draw
 		saved.setDrawnDate(LocalDateTime.now());
-		saved = drawsRepository.save(saved);
-		newSignature = saved2.getSignature();
+		saved = drawsRepository.saveAndFlush(saved);
+		newSignature = saved.getSignature();
+		assertThat(signature).isNotEqualTo(newSignature);
 	}
 
 }
