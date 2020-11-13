@@ -60,11 +60,6 @@ public class DrawsRepositoryTest extends AbstractIntegrationTest
 	@Autowired
 	private DrawsRepository drawsRepository;
 
-	@Autowired
-	private DrawsService drawsService;
-
-	@Autowired TestEntityManager entityManagerDecorator;
-
 	@Test
 	public void testSave() {
 		// new scenario...
@@ -86,22 +81,6 @@ public class DrawsRepositoryTest extends AbstractIntegrationTest
 		saved = drawsRepository.saveAndFlush(saved);
 		newSignature = saved.getSignature();
 		assertThat(signature).isNotEqualTo(newSignature);
-	}
-
-
-	@Test
-	public void testVerify()
-	{
-		// new scenario...
-		// draw the first object
-		Draws saved = drawsRepository.saveAndFlush(Draws.builder().drawnDate(LocalDateTime.now())
-			.lotteryNumbers(SetFactory.newHashSet(2, 5, 11, 23, 25, 45)).build());
-		String signature = saved.getSignature();
-		assertThat(saved).isNotNull();
-		assertThat(signature).isNotNull();
-
-		Draws one = drawsService.getById(saved.getId());
-		assertThat(one).isNotNull();
 	}
 
 }
