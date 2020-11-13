@@ -9,6 +9,7 @@ import io.github.astrapi69.gambleboom.config.ApplicationConfiguration;
 import io.github.astrapi69.gambleboom.config.ApplicationProperties;
 import io.github.astrapi69.gambleboom.config.SwaggerConfiguration;
 import io.github.astrapi69.gambleboom.jpa.entities.Draws;
+import io.github.astrapi69.gambleboom.service.DrawsService;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.java.Log;
@@ -58,6 +59,10 @@ public class DrawsRepositoryTest extends AbstractIntegrationTest
 {
 	@Autowired
 	private DrawsRepository drawsRepository;
+
+	@Autowired
+	private DrawsService drawsService;
+
 	@Autowired TestEntityManager entityManagerDecorator;
 
 	@Test
@@ -95,7 +100,7 @@ public class DrawsRepositoryTest extends AbstractIntegrationTest
 		assertThat(saved).isNotNull();
 		assertThat(signature).isNotNull();
 
-		Draws one = drawsRepository.getOne(saved.getId());
+		Draws one = drawsService.getById(saved.getId());
 		assertThat(one).isNotNull();
 	}
 

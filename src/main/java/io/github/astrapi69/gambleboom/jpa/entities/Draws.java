@@ -2,9 +2,8 @@ package io.github.astrapi69.gambleboom.jpa.entities;
 
 import de.alpharogroup.db.entity.enums.DatabasePrefix;
 import de.alpharogroup.db.entity.identifiable.Identifiable;
-import de.alpharogroup.db.entity.processable.Processable;
-import de.alpharogroup.db.entity.uniqueable.UUIDEntity;
 import de.alpharogroup.db.entity.verifiable.Verifiable;
+import de.alpharogroup.sign.annotation.SignatureExclude;
 import io.github.astrapi69.gambleboom.jpa.listeners.DrawsSignatureListener;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -13,6 +12,7 @@ import lombok.experimental.SuperBuilder;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity @Table(name = Draws.TABLE_NAME)
 @EntityListeners({ DrawsSignatureListener.class })
@@ -23,8 +23,7 @@ import java.util.Set;
 @AllArgsConstructor
 @SuperBuilder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Draws
-	extends UUIDEntity implements Verifiable
+public class Draws implements Verifiable
 {
 	static final String SINGULAR_ENTITY_NAME = "draw";
 	static final String TABLE_NAME = SINGULAR_ENTITY_NAME + "s";
@@ -33,7 +32,15 @@ public class Draws
 	static final String JOIN_COLUMN_NAME = SINGULAR_ENTITY_NAME + DatabasePrefix.UNDERSCORE + Identifiable.COLUMN_NAME_ID;
 	static final String COLLECTION_TABLE_FOREIGN_KEY = DatabasePrefix.FOREIGN_KEY_PREFIX
 		+ TABLE_NAME + DatabasePrefix.UNDERSCORE + Identifiable.COLUMN_NAME_ID;
-
+	@Id
+	@GeneratedValue(
+		generator = "UUID"
+	)
+	@Column(
+		name = "id",
+		updatable = false,
+		nullable = false
+	) private UUID id;
 	/**
 	 * The drawn date of this drawn numbers.
 	 */
@@ -47,6 +54,7 @@ public class Draws
 	@Column(name = "lottery_number")
 	Set<Integer> lotteryNumbers;
 
+	@SignatureExclude
 	@Column String signature;
 
 }

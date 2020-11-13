@@ -38,12 +38,12 @@ spring:
   datasource:
     username: postgres
     password: postgres
-    driver-class-name: org.apache.derby.jdbc.EmbeddedDriver
+    driver-class-name: org.postgresql.Driver
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:derby:memory:gambleboom;create=true
+    url: ${app.db-url-prefix}${app.db-host}:${app.db-port}/${app.db-name}
     initialization-mode: never
     hikari:
-      driver-class-name: org.apache.derby.jdbc.EmbeddedDriver
+      driver-class-name: org.postgresql.Driver
   jpa:
     properties:
       hibernate:
@@ -57,3 +57,6 @@ spring:
       format_sql: true
       generate_statistics: false
 
+  flyway:
+    enabled: true
+    baseline-on-migrate: true

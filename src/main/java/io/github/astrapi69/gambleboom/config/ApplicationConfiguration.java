@@ -1,24 +1,16 @@
 package io.github.astrapi69.gambleboom.config;
 
-import com.fasterxml.jackson.core.Version;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleAbstractTypeResolver;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.google.gson.Gson;
-import de.alpharogroup.crypto.algorithm.KeystoreType;
-import de.alpharogroup.crypto.factories.KeyStoreFactory;
-import de.alpharogroup.lang.ClassExtensions;
+import java.io.File;
+import java.security.KeyStore;
+import java.security.PrivateKey;
+import java.security.cert.Certificate;
+import java.util.List;
+
+import de.alpharogroup.gson.factory.GsonFactory;
+import de.alpharogroup.gson.strategy.GenericExclusionStrategy;
 import de.alpharogroup.sign.JsonSigner;
 import de.alpharogroup.sign.JsonVerifier;
-import de.alpharogroup.sign.SignatureBean;
-import de.alpharogroup.sign.VerifyBean;
-import de.alpharogroup.throwable.RuntimeExceptionDecorator;
-import io.github.astrapi69.gambleboom.jpa.entities.Draws;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.NonNull;
-import lombok.experimental.FieldDefaults;
+import de.alpharogroup.sign.annotation.SignatureExclude;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -35,22 +27,35 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import java.io.File;
-import java.security.KeyStore;
-import java.security.PrivateKey;
-import java.security.cert.Certificate;
-import java.util.List;
+import com.fasterxml.jackson.core.Version;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleAbstractTypeResolver;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import de.alpharogroup.crypto.algorithm.KeystoreType;
+import de.alpharogroup.crypto.factories.KeyStoreFactory;
+import de.alpharogroup.lang.ClassExtensions;
+import de.alpharogroup.sign.SignatureBean;
+import de.alpharogroup.sign.VerifyBean;
+import de.alpharogroup.throwable.RuntimeExceptionDecorator;
+import io.github.astrapi69.gambleboom.jpa.entities.Draws;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.NonNull;
+import lombok.experimental.FieldDefaults;
 
 @Configuration
 @ComponentScan(basePackages = { "io.github.astrapi69.gambleboom",
-	"io.github.astrapi69.gambleboom.service",
-	"io.github.astrapi69.gambleboom.jpa.entities" })
-@EntityScan(basePackages = {
-	"io.github.astrapi69.gambleboom.jpa.entities" })
-@EnableJpaRepositories(basePackages = {
-	"io.github.astrapi69.gambleboom.jpa.repositories" })
-@EnableTransactionManagement @AllArgsConstructor @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true) public class ApplicationConfiguration
-	implements WebMvcConfigurer
+		"io.github.astrapi69.gambleboom.service", "io.github.astrapi69.gambleboom.jpa.entities" })
+@EntityScan(basePackages = { "io.github.astrapi69.gambleboom.jpa.entities" })
+@EnableJpaRepositories(basePackages = { "io.github.astrapi69.gambleboom.jpa.repositories" })
+@EnableTransactionManagement
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+public class ApplicationConfiguration implements WebMvcConfigurer
 {
 
 	public static final String VERSION_API_1 = "v1";
@@ -58,7 +63,8 @@ import java.util.List;
 
 	ApplicationProperties applicationProperties;
 
-	@SuppressWarnings("unused") Environment env;
+	@SuppressWarnings("unused")
+	Environment env;
 
 	public static ObjectMapper initialize(final @NonNull ObjectMapper objectMapper)
 	{
@@ -76,13 +82,15 @@ import java.util.List;
 		return objectMapper;
 	}
 
-	@Override public void addCorsMappings(CorsRegistry registry)
+	@Override
+	public void addCorsMappings(CorsRegistry registry)
 	{
 		registry.addMapping("/**").allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
 			.allowedOrigins("*");
 	}
 
-	@Override public void configureMessageConverters(List<HttpMessageConverter<?>> converters)
+	@Override
+	public void configureMessageConverters(List<HttpMessageConverter<?>> converters)
 	{
 		converters.add(createXmlHttpMessageConverter());
 		converters.add(newMappingJackson2HttpMessageConverter());
@@ -105,7 +113,8 @@ import java.util.List;
 		return xmlConverter;
 	}
 
-	@Bean public MessageSource messageSource()
+	@Bean
+	public MessageSource messageSource()
 	{
 		ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
 		messageSource.setBasenames("messages/errors");
@@ -113,22 +122,25 @@ import java.util.List;
 		return messageSource;
 	}
 
-	@Bean public ObjectMapper objectMapper()
+	@Bean
+	public ObjectMapper objectMapper()
 	{
 		return initialize(new ObjectMapper());
 	}
 
-	@Bean public KeyStore keyStore()
+	@Bean
+	public KeyStore keyStore()
 	{
 		String keystoreFilename = applicationProperties.getKeystoreFilename();
 		File keystoreFile = RuntimeExceptionDecorator
 			.decorate(() -> ClassExtensions.getResourceAsFile(keystoreFilename));
-		return RuntimeExceptionDecorator.decorate(() -> KeyStoreFactory
-			.newKeyStore(KeystoreType.JKS.name(), applicationProperties.getKeystorePassword(),
-				keystoreFile));
+		return RuntimeExceptionDecorator
+			.decorate(() -> KeyStoreFactory.newKeyStore(KeystoreType.JKS.name(),
+				applicationProperties.getKeystorePassword(), keystoreFile));
 	}
 
-	@Bean public SignatureBean signatureBean()
+	@Bean
+	public SignatureBean signatureBean()
 	{
 		String pkAlias = applicationProperties.getPkAlias();
 		char[] chars = applicationProperties.getKeystorePassword().toCharArray();
@@ -140,7 +152,8 @@ import java.util.List;
 			.build();
 	}
 
-	@Bean public VerifyBean verifyBean()
+	@Bean
+	public VerifyBean verifyBean()
 	{
 		String pkAlias = applicationProperties.getPkAlias();
 		char[] chars = applicationProperties.getKeystorePassword().toCharArray();
@@ -152,18 +165,26 @@ import java.util.List;
 			.build();
 	}
 
-    @Bean public Gson gson() {
-        return new Gson();
-    }
-
-	@Bean public JsonSigner<Draws> drawsJsonSigner()
+	@Bean
+	public Gson gson()
 	{
-		return new JsonSigner<>(signatureBean(), new Gson());
+		return
+			GsonFactory.newGsonBuilder(
+				new GenericExclusionStrategy<>(SignatureExclude.class),
+				"dd-MM-yyyy hh:mm:ss");
+	}
+
+	@Bean
+	public JsonSigner<Draws> drawsJsonSigner()
+	{
+		return new JsonSigner<>(signatureBean(), gson());
 	}
 
 
-    @Bean public JsonVerifier<Draws> drawsJsonVerifier(){
-        return new JsonVerifier<>(verifyBean(), gson());
-    }
+	@Bean
+	public JsonVerifier<Draws> drawsJsonVerifier()
+	{
+		return new JsonVerifier<>(verifyBean(), gson());
+	}
 
 }
