@@ -13,7 +13,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class SwaggerConfiguration extends AbstractSwaggerConfiguration
 {
 
-	@Bean public Docket api()
+	@Bean
+	public Docket api()
 	{
 		return super.api();
 	}
@@ -23,37 +24,44 @@ public class SwaggerConfiguration extends AbstractSwaggerConfiguration
 		return super.metaData();
 	}
 
-	@Override public String getBasePackage()
+	@Override
+	public String getBasePackage()
 	{
 		return "io.github.astrapi69.gambleboom";
 	}
 
-	@Override public String getApiInfoTitle()
+	@Override
+	public String getApiInfoTitle()
 	{
 		return "Lottery REST API";
 	}
 
-	@Override public String getApiInfoDescription()
+	@Override
+	public String getApiInfoDescription()
 	{
 		return "REST API for lottery and gamble";
 	}
 
-	@Override public String getApiInfoVersion()
+	@Override
+	public String getApiInfoVersion()
 	{
 		return ApplicationConfiguration.VERSION_API_1;
 	}
 
-	@Override public String getContactName()
+	@Override
+	public String getContactName()
 	{
 		return "foo-gamble inc.";
 	}
 
-	@Override public String getContactUrl()
+	@Override
+	public String getContactUrl()
 	{
 		return "www.foo-gamble.com";
 	}
 
-	@Override public String getDocketPathsPathRegex()
+	@Override
+	public String getDocketPathsPathRegex()
 	{
 		return ApplicationConfiguration.REST_VERSION + "/.*|";
 	}

@@ -10,8 +10,8 @@ create table draws
 
 create table draws_lottery_numbers
 (
-    draw_id uuid not null,
-    lottery_number   integer,
+    draw_id        uuid not null,
+    lottery_number integer,
     constraint fk_drawn_numbers_id
         foreign key (draw_id) references draws
 );

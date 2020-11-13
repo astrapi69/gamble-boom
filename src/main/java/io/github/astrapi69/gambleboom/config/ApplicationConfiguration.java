@@ -6,11 +6,6 @@ import java.security.PrivateKey;
 import java.security.cert.Certificate;
 import java.util.List;
 
-import de.alpharogroup.gson.factory.GsonFactory;
-import de.alpharogroup.gson.strategy.GenericExclusionStrategy;
-import de.alpharogroup.sign.JsonSigner;
-import de.alpharogroup.sign.JsonVerifier;
-import de.alpharogroup.sign.annotation.SignatureExclude;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -33,13 +28,17 @@ import com.fasterxml.jackson.databind.module.SimpleAbstractTypeResolver;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import de.alpharogroup.crypto.algorithm.KeystoreType;
 import de.alpharogroup.crypto.factories.KeyStoreFactory;
+import de.alpharogroup.gson.factory.GsonFactory;
+import de.alpharogroup.gson.strategy.GenericExclusionStrategy;
 import de.alpharogroup.lang.ClassExtensions;
+import de.alpharogroup.sign.JsonSigner;
+import de.alpharogroup.sign.JsonVerifier;
 import de.alpharogroup.sign.SignatureBean;
 import de.alpharogroup.sign.VerifyBean;
+import de.alpharogroup.sign.annotation.SignatureExclude;
 import de.alpharogroup.throwable.RuntimeExceptionDecorator;
 import io.github.astrapi69.gambleboom.jpa.entities.Draws;
 import lombok.AccessLevel;
@@ -168,10 +167,8 @@ public class ApplicationConfiguration implements WebMvcConfigurer
 	@Bean
 	public Gson gson()
 	{
-		return
-			GsonFactory.newGsonBuilder(
-				new GenericExclusionStrategy<>(SignatureExclude.class),
-				"dd-MM-yyyy hh:mm:ss");
+		return GsonFactory.newGsonBuilder(new GenericExclusionStrategy<>(SignatureExclude.class),
+			"dd-MM-yyyy hh:mm:ss");
 	}
 
 	@Bean

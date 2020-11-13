@@ -1,16 +1,18 @@
 package io.github.astrapi69.gambleboom.jpa.listeners;
 
-import de.alpharogroup.sign.JsonSigner;
-import de.alpharogroup.spring.autowire.AutowireAware;
-import io.github.astrapi69.gambleboom.jpa.entities.Draws;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import de.alpharogroup.sign.JsonSigner;
+import de.alpharogroup.spring.autowire.AutowireAware;
+import io.github.astrapi69.gambleboom.jpa.entities.Draws;
+
 public class DrawsSignatureListener
 {
-	@Autowired JsonSigner<Draws> drawsJsonSigner;
+	@Autowired
+	JsonSigner<Draws> drawsJsonSigner;
 
 	@PrePersist
 	@PreUpdate
