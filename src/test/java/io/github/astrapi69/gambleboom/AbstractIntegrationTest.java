@@ -1,5 +1,9 @@
 package io.github.astrapi69.gambleboom;
 
+import java.time.Duration;
+import java.util.Map;
+import java.util.stream.Stream;
+
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
@@ -8,10 +12,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.lifecycle.Startables;
 import org.testcontainers.shaded.com.google.common.collect.ImmutableMap;
-
-import java.time.Duration;
-import java.util.Map;
-import java.util.stream.Stream;
 
 @ContextConfiguration(initializers = AbstractIntegrationTest.Initializer.class, classes = {
 	TestConfiguration.class }) public class AbstractIntegrationTest

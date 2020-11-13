@@ -1,51 +1,27 @@
 package io.github.astrapi69.gambleboom.jpa.repositories;
 
-import de.alpharogroup.collections.set.SetFactory;
-import de.alpharogroup.jdbc.ConnectionsExtensions;
-import de.alpharogroup.jdbc.JdbcUrlBean;
-import de.alpharogroup.jdbc.PostgreSQLConnectionsExtensions;
-import io.github.astrapi69.gambleboom.AbstractIntegrationTest;
-import io.github.astrapi69.gambleboom.config.ApplicationConfiguration;
-import io.github.astrapi69.gambleboom.config.ApplicationProperties;
-import io.github.astrapi69.gambleboom.config.SwaggerConfiguration;
-import io.github.astrapi69.gambleboom.jpa.entities.Draws;
-import io.github.astrapi69.gambleboom.service.DrawsService;
-import lombok.AccessLevel;
-import lombok.experimental.FieldDefaults;
-import lombok.extern.java.Log;
-import org.junit.Before;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+
+import java.time.LocalDateTime;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
-
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.persistence.Query;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.util.Optional;
-
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import de.alpharogroup.collections.set.SetFactory;
+import io.github.astrapi69.gambleboom.AbstractIntegrationTest;
+import io.github.astrapi69.gambleboom.config.ApplicationConfiguration;
+import io.github.astrapi69.gambleboom.config.ApplicationProperties;
+import io.github.astrapi69.gambleboom.jpa.entities.Draws;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
+import lombok.extern.java.Log;
 
 @ActiveProfiles("test")
 @RunWith(SpringRunner.class)
