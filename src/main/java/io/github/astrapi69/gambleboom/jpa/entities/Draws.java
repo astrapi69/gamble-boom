@@ -34,7 +34,6 @@ import lombok.experimental.SuperBuilder;
 @EntityListeners({ DrawsSignatureListener.class })
 @Getter
 @Setter
-@ToString(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
@@ -53,6 +52,7 @@ public class Draws implements Verifiable
 	@GeneratedValue(generator = "UUID")
 	@Column(name = "id", updatable = false, nullable = false)
 	private UUID id;
+
 	/**
 	 * The drawn date of this drawn numbers.
 	 */

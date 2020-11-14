@@ -29,11 +29,4 @@ public class ApplicationProperties
 	String keystorePassword;
 	String pkAlias;
 	String signatureAlgorithm;
-	String stripePublicKey;
-	String stripeSecretKey;
-	String jwtSecret;
-	List<String> publicPathPatterns = new ArrayList<>();
-	List<String> signinPathPatterns = new ArrayList<>();
-	List<String> ignorePathPatterns = new ArrayList<>();
-
 }

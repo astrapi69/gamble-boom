@@ -134,8 +134,8 @@ public class ApplicationConfiguration implements WebMvcConfigurer
 		File keystoreFile = RuntimeExceptionDecorator
 			.decorate(() -> ClassExtensions.getResourceAsFile(keystoreFilename));
 		return RuntimeExceptionDecorator
-			.decorate(() -> KeyStoreFactory.newKeyStore(KeystoreType.JKS.name(),
-				applicationProperties.getKeystorePassword(), keystoreFile));
+			.decorate(() -> KeyStoreFactory.loadKeyStore(keystoreFile, KeystoreType.JKS.name(),
+				applicationProperties.getKeystorePassword()));
 	}
 
 	@Bean
