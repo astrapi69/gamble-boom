@@ -1,4 +1,4 @@
-package io.github.astrapi69.gambleboom.jpa.entities;
+package io.github.astrapi69.gambleboom.jpa.entity;
 
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -19,13 +19,12 @@ import de.alpharogroup.db.entity.enums.DatabasePrefix;
 import de.alpharogroup.db.entity.identifiable.Identifiable;
 import de.alpharogroup.db.entity.verifiable.Verifiable;
 import de.alpharogroup.sign.annotation.SignatureExclude;
-import io.github.astrapi69.gambleboom.jpa.listeners.DrawsSignatureListener;
+import io.github.astrapi69.gambleboom.jpa.listener.DrawsSignatureListener;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 
@@ -49,6 +48,7 @@ public class Draws implements Verifiable
 	static final String COLLECTION_TABLE_FOREIGN_KEY = DatabasePrefix.FOREIGN_KEY_PREFIX
 		+ TABLE_NAME + DatabasePrefix.UNDERSCORE + Identifiable.COLUMN_NAME_ID;
 	@Id
+	@SignatureExclude
 	@GeneratedValue(generator = "UUID")
 	@Column(name = "id", updatable = false, nullable = false)
 	private UUID id;

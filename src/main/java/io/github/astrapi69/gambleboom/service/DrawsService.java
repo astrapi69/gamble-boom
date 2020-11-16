@@ -6,8 +6,8 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 import de.alpharogroup.sign.JsonVerifier;
-import io.github.astrapi69.gambleboom.jpa.entities.Draws;
-import io.github.astrapi69.gambleboom.jpa.repositories.DrawsRepository;
+import io.github.astrapi69.gambleboom.jpa.entity.Draws;
+import io.github.astrapi69.gambleboom.jpa.repository.DrawsRepository;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;

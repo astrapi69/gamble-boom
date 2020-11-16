@@ -1,24 +1,37 @@
-package io.github.astrapi69.gambleboom.jpa.listeners;
+package io.github.astrapi69.gambleboom.jpa.listener;
 
+import javax.persistence.PostLoad;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import de.alpharogroup.sign.JsonSigner;
 import de.alpharogroup.spring.autowire.AutowireAware;
-import io.github.astrapi69.gambleboom.jpa.entities.Draws;
+import io.github.astrapi69.gambleboom.jpa.entity.Draws;
 
+@Log
 public class DrawsSignatureListener
 {
 	@Autowired
 	JsonSigner<Draws> drawsJsonSigner;
 
 	@PrePersist
-	@PreUpdate
-	public void onPrePersistSign(Draws verifiable)
+	public void onPrePersist(Draws verifiable)
 	{
 		sign(verifiable);
+	}
+
+	@PreUpdate
+	public void onPreUpdate(Draws verifiable)
+	{
+		sign(verifiable);
+	}
+
+	@PostLoad
+	public void onPostLoad(Draws verifiable) {
+		log.info("Draws with id:" + verifiable.getId() + " have been loaded");
 	}
 
 	private void sign(Draws verifiable)

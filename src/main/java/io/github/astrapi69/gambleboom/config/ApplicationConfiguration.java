@@ -40,7 +40,7 @@ import de.alpharogroup.sign.SignatureBean;
 import de.alpharogroup.sign.VerifyBean;
 import de.alpharogroup.sign.annotation.SignatureExclude;
 import de.alpharogroup.throwable.RuntimeExceptionDecorator;
-import io.github.astrapi69.gambleboom.jpa.entities.Draws;
+import io.github.astrapi69.gambleboom.jpa.entity.Draws;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -48,9 +48,9 @@ import lombok.experimental.FieldDefaults;
 
 @Configuration
 @ComponentScan(basePackages = { "io.github.astrapi69.gambleboom",
-		"io.github.astrapi69.gambleboom.service", "io.github.astrapi69.gambleboom.jpa.entities" })
-@EntityScan(basePackages = { "io.github.astrapi69.gambleboom.jpa.entities" })
-@EnableJpaRepositories(basePackages = { "io.github.astrapi69.gambleboom.jpa.repositories" })
+		"io.github.astrapi69.gambleboom.service", "io.github.astrapi69.gambleboom.jpa.entity" })
+@EntityScan(basePackages = { "io.github.astrapi69.gambleboom.jpa.entity" })
+@EnableJpaRepositories(basePackages = { "io.github.astrapi69.gambleboom.jpa.repository" })
 @EnableTransactionManagement
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -97,8 +97,7 @@ public class ApplicationConfiguration implements WebMvcConfigurer
 
 	private MappingJackson2HttpMessageConverter newMappingJackson2HttpMessageConverter()
 	{
-		MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
-		return mappingJackson2HttpMessageConverter;
+		return new MappingJackson2HttpMessageConverter();
 	}
 
 	private HttpMessageConverter<Object> createXmlHttpMessageConverter()

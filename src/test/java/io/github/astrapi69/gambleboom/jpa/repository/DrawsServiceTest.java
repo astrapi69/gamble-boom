@@ -1,9 +1,10 @@
-package io.github.astrapi69.gambleboom.jpa.repositories;
+package io.github.astrapi69.gambleboom.jpa.repository;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import java.time.LocalDateTime;
 
+import io.github.astrapi69.gambleboom.jpa.repository.DrawsRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,8 @@ import de.alpharogroup.collections.set.SetFactory;
 import io.github.astrapi69.gambleboom.AbstractIntegrationTest;
 import io.github.astrapi69.gambleboom.config.ApplicationConfiguration;
 import io.github.astrapi69.gambleboom.config.ApplicationProperties;
-import io.github.astrapi69.gambleboom.jpa.entities.Draws;
+import io.github.astrapi69.gambleboom.jpa.entity.Draws;
+import io.github.astrapi69.gambleboom.service.DrawsService;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.java.Log;
@@ -31,40 +33,27 @@ import lombok.extern.java.Log;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Import({ ApplicationConfiguration.class })
 @EnableConfigurationProperties({ ApplicationProperties.class })
-public class DrawsRepositoryTest extends AbstractIntegrationTest
+public class DrawsServiceTest extends AbstractIntegrationTest
 {
 	@Autowired
 	private DrawsRepository drawsRepository;
 
+	@Autowired
+	private DrawsService drawsService;
+
 	@Test
-	public void testSave() {
+	public void testVerify()
+	{
 		// new scenario...
 		// draw the first object
-		Draws firstDraw = drawsRepository.saveAndFlush(
-			Draws.builder()
-				.drawnDate(LocalDateTime.now())
-			.lotteryNumbers(
-				SetFactory.newHashSet(2, 5, 11, 23, 25, 45))
-				.build());
-		String signature = firstDraw.getSignature();
-		assertThat(firstDraw).isNotNull();
+		Draws saved = drawsRepository.saveAndFlush(Draws.builder().drawnDate(LocalDateTime.now())
+			.lotteryNumbers(SetFactory.newHashSet(2, 5, 11, 23, 25, 45)).build());
+		String signature = saved.getSignature();
+		assertThat(saved).isNotNull();
 		assertThat(signature).isNotNull();
-		// new scenario...
-		// draw the second object
-		Draws secondDraw = drawsRepository.saveAndFlush(
-			Draws.builder()
-				.drawnDate(LocalDateTime.now())
-			.lotteryNumbers(
-				SetFactory.newHashSet(1, 6, 17, 23, 26, 47))
-				.build());
-		String newSignature = secondDraw.getSignature();
-		assertThat(secondDraw).isNotNull();
-		assertThat(signature).isNotEqualTo(newSignature);
-		// change draw date of first draw
-		firstDraw.setDrawnDate(LocalDateTime.now());
-		firstDraw = drawsRepository.saveAndFlush(firstDraw);
-		newSignature = firstDraw.getSignature();
-		assertThat(signature).isNotEqualTo(newSignature);
+
+		Draws one = drawsService.getById(saved.getId());
+		assertThat(one).isNotNull();
 	}
 
 }
