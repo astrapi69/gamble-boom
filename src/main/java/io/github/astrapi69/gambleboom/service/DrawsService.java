@@ -21,6 +21,10 @@ public class DrawsService
 
 	JsonVerifier<Draws> drawsJsonVerifier;
 
+	public Draws save(Draws draws) {
+		return drawsRepository.save(draws);
+	}
+
 	public Draws getById(UUID id)
 	{
 		Draws draws = null;
