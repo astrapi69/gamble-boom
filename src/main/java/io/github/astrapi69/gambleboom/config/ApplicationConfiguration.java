@@ -65,13 +65,13 @@ public class ApplicationConfiguration implements WebMvcConfigurer
 	@SuppressWarnings("unused")
 	Environment env;
 
-	public static ObjectMapper initialize(final @NonNull ObjectMapper objectMapper)
+	public static ObjectMapper initialize(final @NonNull ObjectMapper objectMapper, ApplicationProperties applicationProperties)
 	{
 		SimpleModule module;
 		JavaTimeModule javaTimeModule;
 		SimpleAbstractTypeResolver resolver;
 
-		module = new SimpleModule("lottery-app", Version.unknownVersion());
+		module = new SimpleModule(applicationProperties.getName(), Version.unknownVersion());
 		resolver = new SimpleAbstractTypeResolver();
 		module.setAbstractTypes(resolver);
 		objectMapper.registerModule(module);
@@ -123,7 +123,7 @@ public class ApplicationConfiguration implements WebMvcConfigurer
 	@Bean
 	public ObjectMapper objectMapper()
 	{
-		return initialize(new ObjectMapper());
+		return initialize(new ObjectMapper(), applicationProperties);
 	}
 
 	@Bean

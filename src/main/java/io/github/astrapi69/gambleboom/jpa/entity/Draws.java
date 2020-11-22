@@ -50,7 +50,7 @@ public class Draws implements Verifiable
 	@Id
 	@SignatureExclude
 	@GeneratedValue(generator = "UUID")
-	@Column(name = "id", updatable = false, nullable = false)
+	@Column(name = Identifiable.COLUMN_NAME_ID, updatable = false, nullable = false)
 	private UUID id;
 
 	/**
@@ -63,8 +63,10 @@ public class Draws implements Verifiable
 	 * The set with the drawn lottery numbers.
 	 */
 	@ElementCollection
-	@CollectionTable(name = "draws_lottery_numbers", joinColumns = @JoinColumn(name = "draw_id", foreignKey = @ForeignKey(name = "fk_draws_id")))
-	@Column(name = "lottery_number")
+	@CollectionTable(name = COLLECTION_TABLE_NAME,
+		joinColumns = @JoinColumn(name = JOIN_COLUMN_NAME,
+			foreignKey = @ForeignKey(name = COLLECTION_TABLE_FOREIGN_KEY)))
+	@Column(name = COLUMN_NAME_LOTTERY_NUMBER)
 	Set<Integer> lotteryNumbers;
 
 	@SignatureExclude

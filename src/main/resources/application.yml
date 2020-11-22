@@ -16,7 +16,7 @@ server:
   port: 5000
 
 app:
-  name: gamble-boom
+  name: ${name}
   dir: ${user.home}/.${app.name}
   db-name: gambleboom
   keystore-filename: keystore.jks
